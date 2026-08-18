@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HighTicket.io Coach Onboarding: Reference Hub</title>
+<style>
+  :root{
+    --bg:#0f1420; --panel:#161d2e; --panel2:#1c2540; --line:#2a3454;
+    --text:#e8ecf7; --muted:#93a0c2; --accent:#5b8def; --accent2:#f5a623;
+    --good:#3ecf8e; --warn:#f5a623; --bad:#ef5f6a;
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6;
+  }
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  .layout{display:flex; min-height:100vh;}
+  nav.sidebar{
+    width:270px; flex-shrink:0; background:var(--panel); border-right:1px solid var(--line);
+    padding:24px 18px; position:sticky; top:0; height:100vh; overflow-y:auto;
+  }
+  nav.sidebar h1{font-size:15px; letter-spacing:.02em; color:var(--text); margin:0 0 4px;}
+  nav.sidebar .sub{font-size:12px; color:var(--muted); margin-bottom:22px;}
+  nav.sidebar .navgroup{margin-bottom:18px;}
+  nav.sidebar .navgroup-title{font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); margin-bottom:8px;}
+  nav.sidebar a.navlink{display:block; padding:6px 8px; border-radius:8px; font-size:13.5px; color:var(--text); margin-bottom:2px;}
+  nav.sidebar a.navlink:hover{background:var(--panel2); text-decoration:none;}
+  nav.sidebar a.navlink.gap{color:var(--warn);}
+  main{flex:1; padding:40px 56px 120px; max-width:960px;}
+  .badge{display:inline-block; font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; letter-spacing:.02em;}
+  .badge.confirmed{background:rgba(62,207,142,.15); color:var(--good); border:1px solid rgba(62,207,142,.4);}
+  .badge.gap{background:rgba(245,166,35,.15); color:var(--warn); border:1px solid rgba(245,166,35,.4);}
+  .badge.done{background:rgba(91,141,239,.15); color:var(--accent); border:1px solid rgba(91,141,239,.4);}
+  .badge.empty{background:rgba(147,160,194,.15); color:var(--muted); border:1px solid rgba(147,160,194,.4);}
+  header.hero{margin-bottom:48px;}
+  header.hero h1{font-size:32px; margin:0 0 10px;}
+  header.hero p{color:var(--muted); font-size:15px; max-width:680px;}
+  section{margin-bottom:56px; scroll-margin-top:24px;}
+  section h2{font-size:22px; margin:0 0 4px; display:flex; align-items:center; gap:10px;}
+  section .meta{color:var(--muted); font-size:13px; margin-bottom:18px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px; margin-bottom:16px;}
+  .card h3{margin:0 0 10px; font-size:16px;}
+  .card h4{margin:14px 0 6px; font-size:14px; color:var(--accent2);}
+  .card ul{margin:8px 0 0; padding-left:20px;}
+  .card li{margin-bottom:6px; font-size:14.5px;}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .pill-row{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0;}
+  .pill{background:var(--panel2); border:1px solid var(--line); border-radius:20px; padding:5px 13px; font-size:12.5px; color:var(--muted);}
+  .pill.confirmed{color:var(--good); border-color:rgba(62,207,142,.4);}
+  .pill.empty{color:var(--muted); font-style:italic;}
+  table{width:100%; border-collapse:collapse; font-size:13.5px; margin-top:10px;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{color:var(--muted); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.03em;}
+  .timeline{display:flex; flex-direction:column; gap:0; margin:18px 0;}
+  .tl-item{display:flex; gap:16px; padding:14px 0; border-left:2px solid var(--line); padding-left:20px; margin-left:8px; position:relative;}
+  .tl-item::before{content:""; position:absolute; left:-7px; top:18px; width:12px; height:12px; border-radius:50%; background:var(--accent); border:2px solid var(--bg);}
+  .tl-item.done::before{background:var(--good);}
+  .tl-item.now::before{background:var(--accent2); box-shadow:0 0 0 4px rgba(245,166,35,.25);}
+  .tl-item.future::before{background:var(--line);}
+  .tl-body h4{margin:0 0 4px; font-size:15px; color:var(--text);}
+  .tl-body p{margin:0; color:var(--muted); font-size:13.5px;}
+  .checklist{list-style:none; padding:0; margin:10px 0 0;}
+  .checklist li{display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--line); font-size:14.5px;}
+  .checklist li:last-child{border-bottom:none;}
+  .checklist .box{width:16px; height:16px; border:1.5px solid var(--muted); border-radius:4px; flex-shrink:0; margin-top:2px;}
+  .checklist .box.done{background:var(--good); border-color:var(--good); position:relative;}
+  .checklist .box.done::after{content:"✓"; position:absolute; top:-3px; left:2px; font-size:12px; color:#0f1420; font-weight:700;}
+  .checklist a{color:var(--text); font-weight:500;}
+  .checklist a:hover{color:var(--accent);}
+  .quote{border-left:3px solid var(--accent); background:var(--panel2); padding:14px 18px; border-radius:0 8px 8px 0; font-size:14.5px; color:var(--text); margin:14px 0;}
+  .quote b{color:var(--accent2);}
+  .callout-warn{border:1px solid rgba(245,166,35,.4); background:rgba(245,166,35,.08); border-radius:var(--radius); padding:18px 22px; margin:14px 0;}
+  .callout-warn h4{margin:0 0 8px; color:var(--warn); font-size:14px;}
+  .callout-good{border:1px solid rgba(62,207,142,.4); background:rgba(62,207,142,.08); border-radius:var(--radius); padding:18px 22px; margin:14px 0;}
+  .callout-good h4{margin:0 0 8px; color:var(--good); font-size:14px;}
+  .source-tag{font-size:11.5px; color:var(--muted); margin-top:14px; padding-top:12px; border-top:1px dashed var(--line);}
+  .toc-back{font-size:12px; margin-top:24px; display:inline-block;}
+  .call-list{display:flex; flex-direction:column; gap:10px;}
+  .call-item{display:flex; gap:14px; align-items:flex-start; background:var(--panel2); border-radius:10px; padding:12px 16px;}
+  .call-num{background:var(--accent); color:#fff; font-weight:700; font-size:12px; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .call-item h4{margin:0 0 3px; font-size:14.5px; color:var(--text);}
+  .call-item p{margin:0; color:var(--muted); font-size:13px;}
+  .tpl{background:var(--panel2); border-radius:8px; padding:12px 14px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12.5px; white-space:pre-wrap; color:#c9d3ee; margin-top:8px; border:1px solid var(--line);}
+  .goodbad{display:flex; flex-direction:column; gap:4px; margin:8px 0 14px;}
+  .goodbad .g{color:var(--good); font-size:13.5px;}
+  .goodbad .b{color:var(--bad); font-size:13.5px;}
+  .weekhdr{display:flex; align-items:center; gap:10px; margin-bottom:2px;}
+  .weeknum{background:var(--accent); color:#fff; font-weight:700; font-size:13px; padding:3px 11px; border-radius:20px;}
+  footer{color:var(--muted); font-size:12px; padding:30px 56px; border-top:1px solid var(--line);}
+  @media(max-width:860px){
+    .layout{flex-direction:column;}
+    nav.sidebar{position:relative; height:auto; width:auto;}
+    main{padding:28px 20px;}
+    .grid2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <nav class="sidebar">
+    <h1>🎯 HighTicket.io</h1>
+    <div class="sub">Coach Onboarding Reference Hub<br>Updated for Antonio, 17 Aug 2026 (desktop app access)</div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Orientation</div>
+      <a class="navlink" href="#timeline">Process Timeline</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">The Role</div>
+      <a class="navlink" href="#role-full">Role, KPI &amp; Comp (full)</a>
+      <a class="navlink" href="#role-short">Role Description (job posting)</a>
+      <a class="navlink" href="#meet-team">Meet the Team / Scope</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Trial Week (done)</div>
+      <a class="navlink" href="#trial-week">Trial Week Checklist</a>
+      <a class="navlink" href="#exemplary-calls">Exemplary Coaching Calls ⭐</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Alignment Call (done)</div>
+      <a class="navlink" href="#alignment-call">⭐ Alignment Call Prep</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Trial Month (current)</div>
+      <a class="navlink gap" href="#first-two-weeks">⭐ Weeks 1&ndash;2 Checklist</a>
+      <a class="navlink" href="#month-one-rest">Weeks 3&ndash;4 &amp; Graduation</a>
+      <a class="navlink" href="#mistakes">Common Month 1 Mistakes</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Operations</div>
+      <a class="navlink" href="#comms">Communication Guidelines</a>
+      <a class="navlink" href="#tech-stack">Tech Stack Overview</a>
+      <a class="navlink" href="#templates">Templates &amp; Touchpoints</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Trial Month Week 1 Reading</div>
+      <a class="navlink" href="#academy">Coaches Academy (5 modules)</a>
+      <a class="navlink" href="#loom-walkthrough">New Coach Loom Walkthrough</a>
+      <a class="navlink" href="#incubator-plus-sop">Incubator+ Full SOP ⭐</a>
+      <a class="navlink" href="#incubator-sop">Incubator Full SOP</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Core Student Journey Calls</div>
+      <a class="navlink" href="#niche-call">Niche Selection Call: Stage 1 ⭐</a>
+      <a class="navlink" href="#supplier-outreach">Supplier Outreach Call: Stage 2</a>
+      <a class="navlink" href="#supplier-imports">Supplier &amp; Store Imports Call: Stage 3</a>
+      <a class="navlink" href="#website-audit">Website Audit: Stage 4</a>
+      <a class="navlink" href="#gmc-ads-setup">GMC + Ads Setup Call: Stage 5 ⭐</a>
+      <a class="navlink" href="#gmc-health-pmax">GMC/Ads Health Check + PMax Launch: Stage 6</a>
+      <a class="navlink" href="#ad-campaign-audit">Ad Campaign Audit: Stage 7</a>
+      <a class="navlink" href="#scaling-beyond-waiting">Scaling Beyond Waiting: Stage 8</a>
+      <a class="navlink" href="#gmc-suspension">GMC Suspension Resolution SOP ⭐</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Hard Situations</div>
+      <a class="navlink" href="#handover">Coach-to-Coach Handover Procedure</a>
+      <a class="navlink" href="#difficult-student">Difficult Student, No-Shows &amp; Refunds ⭐</a>
+      <a class="navlink" href="#coach-scripts">Coach Scripts: Common Questions</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">History</div>
+      <a class="navlink" href="#interview">Interview Stage (done)</a>
+    </div>
+
+    <div class="navgroup">
+      <div class="navgroup-title">Full Library</div>
+      <a class="navlink gap" href="#library-map">📚 Full Library Map (~65 docs)</a>
+    </div>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <h1>Coach Onboarding: Everything in One Place</h1>
+      <p>Updated 17 Aug 2026 after getting real access to the Coaches SOPs Library through your Notion <b>desktop app</b> (signed in as your actual HighTicket.io account, not the old guest account). You've completed the Interview, the Trial Week, and the Alignment Call; you're now in the paid Trial Month, so the Weeks 1&ndash;2 checklist below is your active to-do list. 26 documents below are pulled and summarized from the real text, including all 8 Core call-stage SOPs (Niche Selection through Scaling Beyond Waiting), the GMC Suspension Resolution SOP, and the hard-situation SOPs (handover, difficult students, refunds). The full library map at the bottom shows exactly what's covered and what's still unopened, organized the same way it's organized in Notion.</p>
+      <div class="pill-row">
+        <span class="badge confirmed">26 docs confirmed &amp; summarized</span>
+        <span class="badge gap">~39 docs still unopened (mapped below)</span>
+      </div>
+    </header>
+
+    <section id="timeline">
+      <h2>📍 Process Timeline</h2>
+      <div class="meta">Where you are right now (updated 17 Aug 2026)</div>
+      <div class="timeline">
+        <div class="tl-item done">
+          <div class="tl-body">
+            <h4>1. Interview <span class="badge done">Completed</span></h4>
+            <p>Loom video answering 8 questions, sent to Rachel/Brad/Klemens. Culture &amp; experience evaluation.</p>
+          </div>
+        </div>
+        <div class="tl-item done">
+          <div class="tl-body">
+            <h4>2. Trial Week <span class="badge done">Completed</span></h4>
+            <p>Unpaid, self-directed. Learned the HT model end to end: training modules, 6 call recordings, and the Exemplary Coaching Calls library. All Phase 2 tasks done.</p>
+          </div>
+        </div>
+        <div class="tl-item done">
+          <div class="tl-body">
+            <h4>3. Alignment Call <span class="badge done">Completed</span></h4>
+            <p>1:1 with the Head of Coaching. Passed, cleared into the paid Trial Month. See <a href="#alignment-call">Alignment Call Prep</a> below for reference.</p>
+          </div>
+        </div>
+        <div class="tl-item now">
+          <div class="tl-body">
+            <h4>4. Trial Month (Coaches Month One) <span class="badge gap">Paid, in progress, this is "now"</span></h4>
+            <p>A structured <b>4-week onboarding programme</b> ending in a go/no-go review with your manager. See <a href="#first-two-weeks">Weeks 1 &amp; 2</a> and <a href="#month-one-rest">Weeks 3 &amp; 4</a> below for what's active right now.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="first-two-weeks">
+      <h2>⭐ Trial Month, Weeks 1&ndash;2: Full Checklist <span class="badge gap">You are here now</span></h2>
+      <div class="meta">Source: <b>Coaches Month One</b> doc, read directly in Notion desktop app. This is the real, complete Week 1 &amp; Week 2 content, nothing inferred. You passed the Alignment Call and are now in the paid Trial Month, use this as your active checklist.</div>
+
+      <div class="card">
+        <h3>The Trial Frame (read first)</h3>
+        <ul>
+          <li>Month 1 is a <b>trial period</b>. You earn <b>base salary only</b> during Months 1 &amp; 2, with no bonus eligibility yet.</li>
+          <li>You'll be added to internal Slack channels, dashboards, and tool accounts.</li>
+          <li>You'll complete the <b>HighTicket Coaches Academy</b> before any student is assigned.</li>
+          <li>You'll <b>shadow 3–5 coaching calls</b> with a senior coach.</li>
+          <li>You'll get your <b>first students</b> assigned, then a <b>review call with your manager</b> at the end of Month 1 to decide graduation.</li>
+        </ul>
+        <div class="callout-warn"><h4>Read this</h4>Any student complaints or consistent underperformance during the trial period triggers an immediate review.</div>
+      </div>
+
+      <div class="card">
+        <div class="weekhdr"><span class="weeknum">WEEK 1</span><h3 style="margin:0;">Setup &amp; Foundations</h3></div>
+        <p style="color:var(--muted); font-size:13.5px;">Goal: you're inside every system, you know where every doc lives, you've read the right ones, your Slack profile is set up.</p>
+
+        <h4>Day 1: Tech &amp; access checklist (team provides)</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Slack workspace access (confirm you can post and DM)</li>
+          <li><span class="box"></span> Notion access (confirm you can view the Coaches SOPs Library)</li>
+          <li><span class="box"></span> HubSpot access, for student records</li>
+          <li><span class="box"></span> Google Workspace account (your own High Ticket email address)</li>
+          <li><span class="box"></span> Loom account (for recording welcome videos to future students)</li>
+        </ul>
+
+        <h4>Slack profile setup</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Full name + role title: <i>"Joe Smith [Coach], 9AM to 5PM EST"</i></li>
+          <li><span class="box"></span> Profile photo (clean headshot)</li>
+          <li><span class="box"></span> Bio: 1 line on your background + 1 line on "what to ask me for"</li>
+          <li><span class="box"></span> Time zone set correctly + working hours set in Slack preferences</li>
+          <li><span class="box"></span> Join all relevant Team Slack Channels</li>
+        </ul>
+
+        <h4>Meetings &amp; intro</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Join the Weekly Coaches Sync Meeting</li>
+          <li><span class="box"></span> Join the Weekly Coaches Triage Meeting</li>
+          <li><span class="box"></span> Post a 2–3 line intro in the coach-development channel</li>
+        </ul>
+
+        <h4>The HighTicket Coaches Academy: non-negotiable before any student is assigned</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> All Academy modules watched end-to-end (don't speed-watch; watch it like you have to teach it tomorrow)</li>
+          <li><span class="box"></span> Note any modules where you have questions</li>
+        </ul>
+
+        <h4>Orientation &amp; Foundational Training (required)</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Complete all foundational training modules in Kajabi</li>
+          <li><span class="box"></span> Attend 2 live Incubator Group Orientation Calls this week</li>
+          <li><span class="box"></span> Attend 2 Incubator Plus Orientation Calls this week (Orientation Team sends invites)</li>
+          <li><span class="box"></span> Watch New Coach Orientation Call</li>
+          <li><span class="box"></span> Review HighTicket New Coach Orientation Deck, Day 1</li>
+          <li><span class="box"></span> Review the Call Notes</li>
+        </ul>
+
+        <h4>Read the System, in this order, don't skim</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Incubator+: Student Journey Overview (map of 6 stages, 3 calls, 7 touchpoints)</li>
+          <li><span class="box"></span> Incubator+: Student Setup Full SOP</li>
+          <li><span class="box"></span> <a href="#role-short">Coaches Role Description</a></li>
+          <li><span class="box"></span> Team Slack Communication Guidelines</li>
+          <li><span class="box"></span> Coach Touchpoint Playbook (bookmark this, it's the operational core)</li>
+          <li><span class="box"></span> <a href="#templates">Templates &amp; Touchpoints Library</a></li>
+        </ul>
+
+        <h4>End of Week 1 check-in (post in coaches-cohort channel)</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Confirm Academy is complete</li>
+          <li><span class="box"></span> Confirm all reading docs are read</li>
+          <li><span class="box"></span> 2–3 questions about anything unclear</li>
+          <li><span class="box"></span> Share your time zone/availability to be paired for Shadow Calls</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="weekhdr"><span class="weeknum">WEEK 2</span><h3 style="margin:0;">Shadow 3–5 Coaching Calls</h3></div>
+        <p style="color:var(--muted); font-size:13.5px;">Goal: watch senior coaches in action across different Core call types. Build pattern recognition.</p>
+        <ul>
+          <li>Your onboarding team pairs you with a senior coach to shadow 3–5 calls this week</li>
+          <li><b>Aim for variety:</b> at minimum one Core 1 (Niche), one Core 2 (Tech), one Core 5 (GMC). Add Core 3, 4, or 6 if available.</li>
+          <li>You join as a silent attendee on Google Meet, camera off, mic muted. Student is told in advance: <i>"My colleague is observing today as part of our quality programme."</i></li>
+          <li>Take notes in a doc using the Shadow Debrief Template below, and share in coaches-cohort once all shadows are done.</li>
+        </ul>
+        <h4>Shadow Debrief Template</h4>
+        <div class="tpl">Shadow Debrief: [Senior Coach Name] / [Core Call Type] / [Date]
+
+What worked well I'd copy:
+• [observation 1] • [observation 2] • [observation 3]
+
+Moments I would have handled differently:
+• [observation + how you'd approach it]
+
+Coach scripts / phrases I want to remember:
+• "[exact quote]" • "[exact quote]"
+
+Questions raised for me by this call:
+• [question 1] • [question 2]</div>
+        <div class="quote">The Shadow Debriefs are your single best learning tool in Month 1. Senior coaches read them. Your manager reads them. They're how the team gets to see how you think.</div>
+        <h4>What to watch for, by Core type</h4>
+        <table>
+          <tr><th>Core call</th><th>Watch for</th></tr>
+          <tr><td>Core 1 (Niche)</td><td>Steering a student away from a niche they love. The 2–3 min personal opener. The widened-category pitch.</td></tr>
+          <tr><td>Core 2 (Tech)</td><td>Screen-share without overwhelming. Address-consistency catch.</td></tr>
+          <tr><td>Core 3 (Supplier)</td><td>The "Our Store" framing. The AutoDS pivot when suppliers go slow.</td></tr>
+          <tr><td>Core 4 (Audit)</td><td>Pushing back on Perfectionist Site-Editor behaviour.</td></tr>
+          <tr><td>Core 5 (GMC + Ads)</td><td>The 48-hour no-touch rule delivery. Composure across 30+ clicks.</td></tr>
+          <tr><td>Core 6 (Ads Stabilisation)</td><td>The "Why no sales yet" FAQ. Absorbing anxiety.</td></tr>
+        </table>
+        <h4>End of Week 2 review</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Shadow Debriefs posted</li>
+          <li><span class="box"></span> Your top 3 takeaways across all shadows</li>
+          <li><span class="box"></span> Any questions you may have</li>
+          <li><span class="box"></span> Any specific call type you'd like another shadow on before co-piloting</li>
+        </ul>
+      </div>
+
+      <div class="callout-good"><h4>Weeks 3 &amp; 4 (first real students, then the graduation review)</h4>Full detail is in <a href="#month-one-rest">Month One: Weeks 3–4 &amp; Graduation</a> below: first 3–5 students, Core 1 calls solo, daily check-ins, and the exact go/no-go criteria.</div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="role-full">
+      <h2>💼 Coach Role Description, KPI &amp; Comp <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The master, current job definition and pay plan. You pasted this in full on 17 Aug 2026.</div>
+      <div class="card">
+        <h3>The one KPI that matters</h3>
+        <p><b>First Sale</b>: every student lands a verified $500+ sale to a real, unrelated third-party customer. Everything else (Slack response time, getting stores live) exists only to serve that moment.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>What you own</h3>
+          <ul>
+            <li>Driving students to first sale: niche selection, supplier outreach coaching, store launch, first ad tuning</li>
+            <li>Compounding after the sale: repeat suppliers, scaling ad spend, post-sale ops</li>
+            <li>Student satisfaction (5★ Trustpilot)</li>
+            <li>Team contribution: helping other coaches' students when asked</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>What you don't own</h3>
+          <ul>
+            <li>Tech / store fixes: Tech team</li>
+            <li>Refunds, billing, disputes: Support (disputes specifically: Aaron)</li>
+            <li>Sales / re-sells: Sales team</li>
+            <li>Onboarding admin: Onboarding team</li>
+            <li>Curriculum creation: feedback only, not building</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <h3>The coaching philosophy that matters most here</h3>
+        <p>The "empowered triangle": under pressure, don't slip into a drama role.</p>
+        <table>
+          <tr><th>Drift toward</th><th>Move toward</th><th>What it looks like</th></tr>
+          <tr><td>Victim</td><td><b>Creator</b></td><td>Student owns their outcome. "What can <i>you</i> test this week?" instead of fixing it for them.</td></tr>
+          <tr><td>Rescuer</td><td><b>Coach</b></td><td>Build the muscle, don't become the muscle. A student who needs you forever is a coaching failure.</td></tr>
+          <tr><td>Persecutor</td><td><b>Challenger</b></td><td>Hold them to the standard they signed up for, calling them <i>up</i>, not <i>out</i>.</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Pay</h3>
+        <table>
+          <tr><th>Component</th><th>Amount</th><th>Notes</th></tr>
+          <tr><td>Base</td><td>$4,000/mo</td><td>Incubator Coach tier; doc notes this is "being changed"</td></tr>
+          <tr><td>First Sale bonus</td><td>$750/student</td><td>Pays ~30 days after sale clears chargeback window; clawed back if refunded or student cancels within 60 days</td></tr>
+          <tr><td>Review bounty</td><td>$75/student</td><td>Verified 5★ Trustpilot, double opt-in method, capped 1/student</td></tr>
+          <tr><td>Growth Commission</td><td>2% of roster revenue</td><td>Annual, uncapped, students on revenue-agreement only, 60-day roster-tenure gate</td></tr>
+        </table>
+        <p style="margin-top:10px; color:var(--muted); font-size:13px;">Roughly <b>$1,275/student</b> in near-term bonuses before the annual 2% kicker.</p>
+      </div>
+      <div class="card">
+        <h3>Values rubric</h3>
+        <div class="pill-row">
+          <span class="pill">Never Satisfied</span>
+          <span class="pill">Do the Dishes</span>
+          <span class="pill">Perpetual Growth</span>
+          <span class="pill">Excellence</span>
+          <span class="pill">Integrity</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Failure conditions (stated plainly in the doc)</h3>
+        <ul>
+          <li>First-sale KPI missed 2 consecutive months without an agreed recovery plan</li>
+          <li>Students cancelling in the first 60 days, as a pattern</li>
+          <li>Slow/absent Slack response</li>
+          <li>Doing the work <i>for</i> students instead of coaching them through it</li>
+          <li>Cherry-picking easy students, disengaging from hard ones</li>
+        </ul>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="role-short">
+      <h2>🙋 Coaches Role Description <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">An earlier, shorter version of the role that reads like the original job posting. Last updated 18 Jul 2026.</div>
+      <div class="card">
+        <p>Functions like a Customer Success Manager: own student progress end to end, including store launch, authorized suppliers, profitable ad campaigns, and consistent sales growth.</p>
+        <div class="grid2">
+          <div>
+            <h3>Minimum qualifications</h3>
+            <ul>
+              <li>3+ years hands-on e-commerce (Shopify or equivalent)</li>
+              <li>Proven track record generating sales / scaling profitable stores</li>
+              <li>Core e-commerce fluency: product validation, suppliers, acquisition, CRO</li>
+              <li>Strong communication/teaching, able to simplify for beginners</li>
+              <li>Empathy, patience, genuine desire to see others succeed</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Preferred qualifications</h3>
+            <ul>
+              <li>Google Ads experience (Search, Shopping, Performance Max)</li>
+              <li>Klaviyo, Meta Ads, or TikTok Ads familiarity</li>
+              <li>Prior coaching / mentoring / training experience</li>
+              <li>Comfortable with Slack, Zoom, project management tools</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:14px;"><b>Compensation range stated here:</b> $4,000&ndash;$8,000/month, performance-based (this is the older/broader range; the detailed doc above has the current bonus mechanics).</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="meet-team">
+      <h2>👥 Meet the Team / Coach Scope <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Despite the name, this isn't bios: it's the master reference for the Coaching Team's mandate and what's in vs. out of scope. Last updated 18 Jul 2026.</div>
+      <div class="card">
+        <h3>Three Core Mandates</h3>
+        <table>
+          <tr><th>Mandate</th><th>Description</th></tr>
+          <tr><td>Accountability</td><td>Keep students moving. Challenge inaction. Make sure progress doesn't stall.</td></tr>
+          <tr><td>Expert answers</td><td>Provide clear, confident 1:1 answers to business, strategy, and program questions.</td></tr>
+          <tr><td>Progress velocity</td><td>Push students toward milestones: niche confirmed, store live, suppliers approved, first sale.</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>7-stage student journey: coach responsibility at each</h3>
+        <ol>
+          <li><b>Client setup &amp; channel creation</b> (all students): complete Client Setup &amp; Onboarding SOP before coaching begins</li>
+          <li><b>Niche Selection Call</b> (Incubator): triggered when student shares Niche Research Sheet</li>
+          <li><b>Niche finalisation</b> (Incubator+): student arrives with 3 preferences from onboarding</li>
+          <li><b>Store &amp; supplier phase guidance</b> (all): demo store build, supplier outreach, first 3–5 suppliers</li>
+          <li><b>Pre-launch ad audit</b> (Incubator+ only): approve full Google Ads setup before student spends a dollar</li>
+          <li><b>First sale &amp; scaling</b> (all): target is first sale within 60 days of ads live</li>
+          <li><b>GMC suspension resolution</b>: follow the SOP, loop in support for student-facing comms</li>
+        </ol>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Coach owns</h3>
+          <ul>
+            <li>Niche selection &amp; domain direction</li>
+            <li>Store strategy &amp; supplier feedback</li>
+            <li>Google Ads setup review &amp; approval</li>
+            <li>Accountability &amp; milestone pacing</li>
+            <li>Business strategy &amp; 1:1 Q&amp;A</li>
+            <li>Pre-launch ad audit (Incubator+)</li>
+            <li>GMC suspension resolution</li>
+            <li>HubSpot updates &amp; student notes</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>NOT the coach's scope</h3>
+          <ul>
+            <li>Billing, refunds, chargebacks: Support</li>
+            <li>Membership pauses, extensions, upgrades: Support</li>
+            <li>Coach switch requests: Support</li>
+            <li>Kajabi / AI tool access issues: Support</li>
+            <li>Shopify, domain, DNS setup: IT Team</li>
+            <li>Orientation &amp; first-day walkthrough: Onboarding Team</li>
+            <li>Legal advice of any kind</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="quote">Coaches operate within specified availability windows. Students must be set clear expectations on response times from day one.</div>
+        <div class="quote">All calls must be recorded via <b>Avoma</b> before any student sessions begin. This is non-negotiable.</div>
+        <div class="quote">Coach switch requests come through support only. Never manage these directly or make commitments to students.</div>
+        <div class="quote">Coaches do not give legal advice. LLC and compliance questions go to Doola or the student's own professionals.</div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="trial-week">
+      <h2>🎉 Coaches Trial Week <span class="badge done">Completed</span></h2>
+      <div class="meta">The doc that structured everything you just finished. SOP Owner: Rachel Ojeba. Last updated 11 Aug 2026. Kept here for reference since the Phase 2 checklist below is now fully checked off.</div>
+      <div class="card">
+        <h3>What a coach does, day to day (from this doc)</h3>
+        <ul>
+          <li>Morning: check student Slack channels, respond to questions/updates</li>
+          <li>Review shared work (store builds, supplier outreach, ad accounts) with specific, actionable feedback</li>
+          <li>Push students who are stuck or going quiet, since accountability is core to the role</li>
+          <li>Lead scheduled calls (niche selection, check-ins, ad reviews)</li>
+          <li>Afternoon: follow-ups</li>
+        </ul>
+        <p style="margin-top:10px;">Core student journey a coach guides:</p>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Niche confirmed</li>
+          <li>Store built</li>
+          <li>Suppliers onboarded</li>
+          <li>Google Ads live</li>
+          <li>First sale</li>
+          <li>Scale</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Phase 2 checklist <span class="badge done" style="margin-left:6px;">All done</span></h3>
+        <ul class="checklist">
+          <li><span class="box done"></span> Complete all HighTicket training modules in full, as a student, at <a href="https://learn.highticket.io/" target="_blank">learn.highticket.io</a> (Kajabi login sent to your email)</li>
+          <li><span class="box done"></span> Watch sales call: <a href="https://app.avoma.com/meetings/4698b814-515e-4df7-be7d-fe854b019e97" target="_blank">Video Sales Letter Funnel</a></li>
+          <li><span class="box done"></span> Watch sales call: <a href="https://app.avoma.com/meetings/a333b748-3984-4b44-9669-32bb71f8b185" target="_blank">Webinar Funnel (Upgrade)</a></li>
+          <li><span class="box done"></span> Watch onboarding call: <a href="https://app.avoma.com/meetings/083b69c8-8891-4771-be0a-d4b026ffafb7" target="_blank">1:1 Incubator+</a></li>
+          <li><span class="box done"></span> Watch onboarding call: <a href="https://docs.google.com/videos/d/1iMTuYiJNcTQpSEHy4VMonkonrwrba4Vq7dRghRiEWYg/edit" target="_blank">Group Incubator</a></li>
+          <li><span class="box done"></span> Watch niche selection call: <a href="https://drive.google.com/file/d/1IHSWMyL3TrtsKjBHwNT7bVeRg4rfRDXm/view" target="_blank">How to Present Niches</a></li>
+          <li><span class="box done"></span> ⭐ Work through <a href="#exemplary-calls">Exemplary Coaching Calls (With One Student)</a>, all 7 calls, flagged as the most important item</li>
+          <li><span class="box done"></span> Book and pass the Alignment Call</li>
+        </ul>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="exemplary-calls">
+      <h2>🎥 Exemplary Coaching Calls ⭐ (With One Student) <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Model coaching sessions with one real student across their whole journey. Coach: Rachel Ojeba. This is the flagged "most important" Phase 2 item. Last updated 19 Jun 2026.</div>
+      <div class="card">
+        <p><b>How to use it:</b> watch each call in full at least once (resist skipping), take notes on what the coach does well, including questions asked, silences held, frameworks used, and how objections are handled, then come back to it whenever you're stuck with a student in a similar spot. These are reference points, not scripts.</p>
+        <div class="call-list">
+          <div class="call-item"><div class="call-num">1</div><div><h4>Niche Selection Call (Core)</h4><p>Narrow 3 niches down to 1, decisively. Confirms LLC status, hands off to Support/Tech so the student doesn't stall.</p></div></div>
+          <div class="call-item"><div class="call-num">2</div><div><h4>Supplier Outreach Call</h4><p>Starts real supplier contact and approvals, the Pre-Ads stage, building toward "real products live."</p></div></div>
+          <div class="call-item"><div class="call-num">3</div><div><h4>Second Outreach Call (AutoDS) <i>(bonus)</i></h4><p>Adds more products, fixes AutoDS friction, keeps the student moving toward the audit threshold.</p></div></div>
+          <div class="call-item"><div class="call-num">4</div><div><h4>Site Audits + Uploads</h4><p>Makes the store "GMC-safe": policies, checkout test, indexing, shipping settings, coordinated uploads.</p></div></div>
+          <div class="call-item"><div class="call-num">5</div><div><h4>GMC + Ads Setup Call (Core)</h4><p>The "ads go live" milestone: business info matches, GMC verified, Google Ads configured cleanly to avoid suspensions.</p></div></div>
+          <div class="call-item"><div class="call-num">6</div><div><h4>First Campaign Launch / Ads Check-In</h4><p>Early post-launch check: products approved, impressions/clicks coming in, fix "first week" problems fast.</p></div></div>
+          <div class="call-item"><div class="call-num">7</div><div><h4>Fulfilling an Order (AutoDS)</h4><p>Walks through fulfillment so the student delivers cleanly, protects margin, avoids customer-service blowups.</p></div></div>
+        </div>
+        <div class="callout-good">
+          <h4>Update: all linked docs now accessible</h4>
+          The Templates &amp; Touchpoints Library, and both "Full SOP" docs (<a href="#incubator-sop">Incubator</a> / <a href="#incubator-plus-sop">Incubator+</a>) that this doc links to are now captured. Only the two shorter Student Journey Overview docs remain unopened; see the <a href="#library-map">Full Library Map</a>.
+        </div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="alignment-call">
+      <h2>📞 Alignment Call Prep <span class="badge done">Completed, passed</span></h2>
+      <div class="meta">Phase 3, from the Coaches Trial Week doc. You passed this call and are now in the paid Trial Month. Kept here for reference.</div>
+      <div class="card">
+        <p>Come prepared to:</p>
+        <ul>
+          <li>Walk through your understanding of the HT coaching process end to end</li>
+          <li>Discuss what stood out from the course and recordings</li>
+          <li>Be honest about where you feel confident and where you still have gaps</li>
+          <li>Ask any questions about the role, students, or expectations</li>
+        </ul>
+        <div class="quote">Your own prep notes (from earlier prep work): the honest gap to name is <b>"Secure authorised suppliers"</b>, the one HT process stage with no overlap in your ad/tracking background. Your strengths to lean on: Facebook ad-account diagnosis, the Alabaste case study (GA4/GTM/Meta Pixel build, abandoned cart flow), and Shopping/Merchant Center/Performance Max depth.</div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="month-one-rest">
+      <h2>🗓️ Coaches Month One: Weeks 3–4 &amp; Graduation <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Continuing directly from <a href="#first-two-weeks">Weeks 1–2</a> above, same source doc.</div>
+
+      <div class="card">
+        <div class="weekhdr"><span class="weeknum">WEEK 3</span><h3 style="margin:0;">First 3–5 Students Assigned</h3></div>
+        <p style="color:var(--muted); font-size:13.5px;">Goal: get assigned your first 3–5 students and run your first Core 1 (Niche Selection) calls solo.</p>
+        <ol>
+          <li>Film your Coach Intro Loom and have it ready for student channels</li>
+          <li>Introduce yourself in each student's Slack channel using Touchpoint TP-0a</li>
+          <li>Onboarding Team assigns your first 3–5 students (you're primary coach)</li>
+          <li>Focus is <b>Core 1 (Niche) calls only</b>, no higher-milestone calls until cleared</li>
+          <li>Keep shadowing if you're still missing milestone call types, or want more reps</li>
+          <li>Post the Universal Post-Call Slack Summary within <b>30 minutes</b> of every Core 1 call</li>
+        </ol>
+        <h4>Pre-call readiness checklist</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Read the student's full Slack channel history</li>
+          <li><span class="box"></span> Reviewed their Welcome Sheet + tier + time zone</li>
+          <li><span class="box"></span> Cross-checked supplier availability (SupplierHQ) for their top 3 niches</li>
+          <li><span class="box"></span> Widened-category recommendation prepared</li>
+          <li><span class="box"></span> Core 1 Agenda doc open in one tab, Touchpoint Playbook in another</li>
+          <li><span class="box"></span> Google Meet tested, notes doc open</li>
+          <li><span class="box"></span> 2–3 min personal opener prepped</li>
+        </ul>
+        <h4>Post-call self-review (watch the recording back yourself, not AI)</h4>
+        <p>Score yourself: professionalism &amp; presence · flow &amp; control · questions &amp; diagnosis · recommendation quality · support &amp; next steps. Capture 3 bullets: 1 thing done well, 1 thing to improve, 1 script/phrase to reuse.</p>
+        <h4>End of Week 3</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> First 3–5 students assigned</li>
+          <li><span class="box"></span> Core 1 calls + post-call summaries within 30 min</li>
+          <li><span class="box"></span> Self-review notes per call</li>
+          <li><span class="box"></span> Remaining shadow calls for missing call types</li>
+          <li><span class="box"></span> Complete your New Coach Loom Walkthrough</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="weekhdr"><span class="weeknum">WEEK 4</span><h3 style="margin:0;">Final Review</h3></div>
+        <p style="color:var(--muted); font-size:13.5px;">Goal: first real students, daily check-ins, end-of-month review.</p>
+        <h4>Receiving your first student assignment, in order</h4>
+        <ol>
+          <li>Read the Welcome Sheet (channel canvas): name, tier, sales notes, time zone</li>
+          <li>Read the full Slack channel history</li>
+          <li>Post the Touchpoint 0a Welcome message with your Loom intro (<b>NO Calendly link yet</b>)</li>
+          <li>Wait for the student to post their top 3 niches</li>
+          <li>Run accountability arc TP-0b if they delay</li>
+          <li>Send Calendly only after their top 3 are posted (Touchpoint 0b template)</li>
+          <li>Before the call: run the Core 1 Agenda Pre-Call Checklist (10 min before)</li>
+        </ol>
+        <h4>Daily during Week 4</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Morning Slack check (30-60 min): scan all student channels for overnight messages</li>
+          <li><span class="box"></span> 15-min daily DM check-in with coaches-cohort (Week 4 only)</li>
+          <li><span class="box"></span> End-of-day Slack scan for tomorrow's check-ins</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>End-of-Month Review: the go/no-go decision</h3>
+        <ol>
+          <li>Stats review (10 min): response times, student feedback, call counts, summary compliance</li>
+          <li>Self-assessment (5 min): where you've grown, where you're stuck</li>
+          <li>Role assessment (5 min): what's landed, what hasn't, specific examples</li>
+          <li>Go / no-go decision (5 min): graduate to full coach, or extension/off-boarding</li>
+          <li>Month 2 plan (5 min): if graduating, capacity ramp, bonus eligibility, dev plan</li>
+        </ol>
+        <h4>Graduation readiness criteria</h4>
+        <ul class="checklist">
+          <li><span class="box"></span> Coaches Academy 100% complete</li>
+          <li><span class="box"></span> All Shadow Debriefs posted</li>
+          <li><span class="box"></span> Co-pilot rubric averaging 8/10+</li>
+          <li><span class="box"></span> At least 1 student successfully through Core 1 in Week 4</li>
+          <li><span class="box"></span> No student complaints during the trial month</li>
+          <li><span class="box"></span> No major process errors flagged</li>
+          <li><span class="box"></span> Can demonstrate the 5-Step Call Framework, Tactical Coaching Lexicon, Accountability Framework (Task, then Check-in, then Late), and 3 special-intervention protocols</li>
+        </ul>
+        <div class="quote">If you're not ready by Day 30, this is a programme, not a pass/fail exam. A 2-week extension is a development decision, not a punishment. The conversation will be specific about what to close before re-review.</div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="mistakes">
+      <h2>🚫 Common Month 1 Mistakes <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">From the Coaches Month One doc, worth reading once before Week 3 starts.</div>
+      <div class="card">
+        <table>
+          <tr><th>Mistake</th><th>Why it matters</th><th>Instead</th></tr>
+          <tr><td>Sending Calendly before student posts top 3 niches</td><td>Skips the Orientation Team's DAC presentation</td><td>Wait: Touchpoint 0c only goes after their top 3</td></tr>
+          <tr><td>Speed-watching the Academy</td><td>You'll get caught when a student asks a basic question</td><td>Watch slowly, take notes</td></tr>
+          <tr><td>Tagging Support in the student channel for your own questions</td><td>Looks bad to the student, clogs the channel</td><td>DM Support privately</td></tr>
+          <tr><td>Giving legal/tax advice</td><td>Liability risk + Doola exists for this</td><td>"That's a Doola question, let me get you in their channel."</td></tr>
+          <tr><td>Skipping the post-call summary "just this once"</td><td>Students lose 30–50% of action items to memory</td><td>Always post within 30 min. Always.</td></tr>
+          <tr><td>Trying to "rescue" a frustrated student via long Slack replies</td><td>Text amplifies misunderstanding</td><td>Switch to an ad-hoc 15-min Google Meet</td></tr>
+          <tr><td>Asking for more students before Day 30</td><td>Signals capacity confidence you haven't earned</td><td>Ask for another shadow instead</td></tr>
+        </table>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="comms">
+      <h2>📞 Coaches Communication Guidelines and Call Etiquette <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Tone-and-conduct manual for talking to students. Last updated 11 Jun 2026.</div>
+      <div class="card">
+        <p>As a representative of High Ticket, coaches communicate professionally, respectfully, and authoritatively, without ever making a student feel insulted or inconvenienced. Students invested significantly and deserve respect and dignity, while coaches also need to convey authority and teach students to be CEOs of their own businesses.</p>
+        <div class="grid2">
+          <div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">1. Lead With Professional Respect</div>
+              <div class="g">✅ "I'm going to challenge that assumption because the data doesn't support it."</div>
+              <div class="b">❌ "That's just wrong, you're overthinking this."</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">2. Keep Communication Public by Default</div>
+              <div class="g">✅ Redirect DMs into the shared channel</div>
+              <div class="b">❌ Answer fully in DMs, bypassing channels</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">3. Model High-Quality Questions</div>
+              <div class="g">✅ "How many vendors did you contact, what response rate, what changed after #5?"</div>
+              <div class="b">❌ "Just keep reaching out, it'll work eventually."</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">4. Clear Responsiveness Boundaries</div>
+              <div class="g">✅ "I'll review this during support hours tomorrow."</div>
+              <div class="b">❌ Immediate reply at midnight</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">5. Reinforce Ownership &amp; Execution</div>
+              <div class="g">✅ "Once you've implemented the changes, post the update and we'll refine."</div>
+              <div class="b">❌ Re-strategizing when nothing's changed yet</div>
+            </div>
+          </div>
+          <div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">6. Run Tight, Professional Calls</div>
+              <div class="g">✅ "We have 15 minutes: review metrics, one decision, next actions."</div>
+              <div class="b">❌ "What do you feel like talking about today?"</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">7. Calm Authority Under Stress</div>
+              <div class="g">✅ "Let's separate emotion from mechanics and look at the numbers."</div>
+              <div class="b">❌ "Yeah, I get it, this part always sucks."</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">8. Protect Confidentiality</div>
+              <div class="g">✅ "Everyone's timeline is different, focus on your controllables."</div>
+              <div class="b">❌ "Other students at your stage are already seeing sales."</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">9. Service Without Over-Serving</div>
+              <div class="g">✅ "My role: clearest path forward. Your role: execute."</div>
+              <div class="b">❌ "I'll stay on top of you and make sure this gets done."</div>
+            </div>
+            <div class="goodbad">
+              <div style="font-weight:600; margin-bottom:2px;">10. Correct Behavior Early</div>
+              <div class="g">✅ "Quick note: let's keep questions in the main channel."</div>
+              <div class="b">❌ Public callout or passive aggression</div>
+            </div>
+          </div>
+        </div>
+        <h4>11. When students question your experience</h4>
+        <div class="goodbad">
+          <div class="g">✅ "I'm trained and specialised in our unique High Ticket strategy. I've worked with dozens/hundreds of students to help them build, launch, and grow. I'm going to do the same with you."</div>
+          <div class="b">❌ "No, I don't have ecommerce experience."</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Call no-show protocol</h3>
+        <ul>
+          <li><b>3 min past start:</b> tag the student in their Slack channel, share the meeting link</li>
+          <li><b>6–7 min past, no word:</b> call via Aloware before leaving the call (ping Veronika if no Aloware access)</li>
+          <li><b>Still no answer:</b> leave the call, send a friendly reschedule message with your Calendly link, and keep the tone non-judgmental</li>
+        </ul>
+        <p style="color:var(--muted); font-size:13px;">Applies to all call types: Niche Selection, Tech Setup, Ad Setup, bonus coaching calls.</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="tech-stack">
+      <h2>🧰 Tech Stack Overview <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The tools you need access to. Cross-reference against your Week 1 access checklist. Last updated 18 Jul 2026.</div>
+      <div class="card">
+        <table>
+          <tr><th>Tool</th><th>What it's for</th></tr>
+          <tr><td>Avoma</td><td>Call recording and notes, add to coaches group</td></tr>
+          <tr><td>Calendly</td><td>Scheduling coaching calls with students</td></tr>
+          <tr><td>Coaching Dashboard</td><td>Coach / student management</td></tr>
+          <tr><td>High Ticket AI Suite</td><td>AI tool helping students with niche, logo, domain, etc.</td></tr>
+          <tr><td>HubSpot</td><td>Tracking student progress and communication</td></tr>
+          <tr><td>Kajabi Admin Access</td><td>Accessing student course materials</td></tr>
+          <tr><td>Loom</td><td>Recording coaching videos and walkthroughs</td></tr>
+          <tr><td>Notion</td><td>Internal resources, SOPs, dashboards</td></tr>
+          <tr><td>Shopify Partners</td><td>Working on student stores; pre-onboarding you take on small tasks alongside existing coaches before a dedicated role</td></tr>
+          <tr><td>SupplierHQ</td><td>Understanding the platform and manual supplier outreach process</td></tr>
+        </table>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="templates">
+      <h2>💬 Templates &amp; Touchpoints Library <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">"The grab bag": every copy-paste message a coach sends, organized by stage/touchpoint. Open this whenever you're about to message a student. Last updated 19 Jul 2026.</div>
+      <div class="card">
+        <p>Full stage map:</p>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li><b>Stage 0</b>: record your reusable Coach Intro Loom</li>
+          <li><b>Stage 1 Onboarding</b>: Welcome message, then Calendly link once niches/DAC picks are posted</li>
+          <li><b>Stage 2 Niche &amp; LLC</b>: hand-off to Support, post-call summary, Doola LLC referral</li>
+          <li><b>Stage 3 In Build</b>: mid-build check-ins</li>
+          <li><b>Stage 4 Pre-Ads</b>: supplier outreach push, product imports, site audit, book Call 2</li>
+          <li><b>Stage 5 Ads Setup</b>: GMC + Ads confirmation</li>
+          <li><b>Stage 6 Live &amp; Scaling</b>: weekly performance reads, first sale celebration, 5-month renewal</li>
+        </ol>
+        <h4>Sample: Touchpoint 0a, Welcome Message (no link)</h4>
+        <div class="tpl">Hey [Name]! 👋
+Welcome to HighTicket, I'm [Coach Name], your assigned coach.
+Here's a quick intro from me: [Loom link]
+While you wait for your orientation call with our team, please get started on:
+• Course modules 0–3
+• Familiarising yourself with this Slack channel
+Quick note: I won't send my call booking link just yet, since we want your
+orientation call done first. Drop any questions here, I'm watching. 🙌</div>
+        <h4>Edge-case templates also included</h4>
+        <ul>
+          <li>Calendly link fails / no times available</li>
+          <li>Student no-show on Call 1</li>
+          <li>Student silent &gt;7 days (escalates to @orientation-team after 48 more hrs)</li>
+          <li>Refund request (react 🎫 to auto-tag Aaron, stay emotionally engaged)</li>
+          <li>DFY request from Incubator student (⚠️ coach never sends the DFY form directly)</li>
+          <li>GMC suspension (reassure + tag @support-team for auto-extension)</li>
+        </ul>
+        <h4>Tagging cheatsheet</h4>
+        <table>
+          <tr><th>Need…</th><th>Tag</th></tr>
+          <tr><td>Tech setup form / DFY form / any form</td><td>@support-team</td></tr>
+          <tr><td>Shopify / domain / Workspace problem</td><td>@technical-support (Sam)</td></tr>
+          <tr><td>SupplierHQ question</td><td>@Jake (manual tag)</td></tr>
+          <tr><td>Store design or logo</td><td>@Teresa / @Veatris</td></tr>
+          <tr><td>Inactive / unresponsive student</td><td>@orientation-team</td></tr>
+          <tr><td>Legal / LLC / EIN questions</td><td>Doola channel (not a tag)</td></tr>
+          <tr><td>Refund request</td><td>React 🎫, auto-tags Aaron</td></tr>
+          <tr><td>Billing / contracts / pauses / upgrades</td><td>@support-team</td></tr>
+        </table>
+        <p style="color:var(--muted); font-size:13px; margin-top:8px;">Full text of every template is saved locally in <code>07-templates-touchpoints-library.md</code>. This section is the condensed version.</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="academy">
+      <h2>🎓 High Ticket Coaches Academy <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The self-paced training every coach must complete before any student is assigned. ~3-4 hours across 5 modules, no live calls or deadlines.</div>
+      <div class="card">
+        <table>
+          <tr><th>Module</th><th>Goal</th><th>Key resources</th></tr>
+          <tr><td><b>1. Orientation</b></td><td>Understand program structure, your role, what students expect</td><td>Onboarding Team · Incubator &amp; Incubator+ Journey Overviews</td></tr>
+          <tr><td><b>2. Coaching Methodology</b> (Coach Rachel)</td><td>How to actually coach: etiquette, frameworks, running a session</td><td>Coaching Team · <a href="#comms">Communication Guidelines</a> · <a href="#templates">Templates Library</a> · Meet the Team</td></tr>
+          <tr><td><b>3. Support Team &amp; Admin</b></td><td>How support works, student admin, coordination</td><td>Support Team &amp; Admin Process Doc · Student Support Team</td></tr>
+          <tr><td><b>4. IT, Tools &amp; Systems</b> (Sam)</td><td>Get set up on your tools, learn IT guidelines</td><td>IT Support Team · IT Guidelines · Domain Selection AI Prompt</td></tr>
+          <tr><td><b>5. Exemplary Coaching Calls</b></td><td>Build your quality bar across the full journey</td><td><a href="#exemplary-calls">Exemplary Coaching Calls</a></td></tr>
+        </table>
+        <div class="callout-warn"><h4>Non-negotiable</h4>The Etiquette Guidelines (Module 2) and IT Guidelines (Module 4) are both called out explicitly as must-not-skip.</div>
+        <h4>After all 5 modules</h4>
+        <ul>
+          <li>Begin reviewing the Coaches SOP Library</li>
+          <li>Share questions/gaps in your coaches-cohort channel</li>
+          <li>Tell the onboarding team you've completed the Academy</li>
+          <li>Confirm you've joined the Team Slack Workspace and Student Slack Workspace</li>
+          <li>You'll then be assigned to start shadowing coaching calls, see <a href="#first-two-weeks">Week 2</a></li>
+        </ul>
+        <table>
+          <tr><th>Question type</th><th>Who to contact</th></tr>
+          <tr><td>Coaching methodology / student situations</td><td>Your Coaches-cohort channel</td></tr>
+          <tr><td>Admin, scheduling, student records</td><td>Support Team</td></tr>
+          <tr><td>Tools, access, technical issues</td><td>Sam (IT)</td></tr>
+          <tr><td>Anything else / general</td><td>SOP Owner</td></tr>
+        </table>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="loom-walkthrough">
+      <h2>🎬 New Coach Loom Walkthrough <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Not a video to watch: a Loom <b>you</b> record and submit by end of Week 3. A gut-check, not an exam. Version 1.0, Owner: Coaching Team.</div>
+      <div class="card">
+        <p><b>Purpose:</b> before you get your first student, the team wants to hear you walk the student journey out loud, in your own words. ~5–10 min, screen + camera on, read each question aloud and answer free-flow, no slides, no word-for-word notes. Send the Loom link to your lead in #coaches-cohort when done.</p>
+        <p style="color:var(--muted); font-size:13px;">Not graded on exact wording or technical depth. They want clear thinking and the right instincts, not perfect recall.</p>
+        <h4>The 7 questions</h4>
+        <ol>
+          <li>Walk through the student journey at a high level, from assignment to first sale. Main stages?</li>
+          <li>A student just got assigned. What's your very first move, and the one thing you must <i>not</i> do yet, and why?</li>
+          <li>Where does the coaching role stop? What don't you own, and who do you hand off to?</li>
+          <li>A student goes quiet for a week, no-shows a call, or mentions a refund. Pick one, how do you handle it?</li>
+          <li>A student gets blocked by a delayed store or GMC suspension. What's your next move?</li>
+          <li>A student lands their first sale. What do you actually do, and why does this moment matter so much?</li>
+          <li>Right after the ads setup call there's a critical rule for the student. What is it?</li>
+        </ol>
+        <div class="callout-good"><h4>Cheat-sheet, from what's already in this hub</h4>
+        <ul style="margin:8px 0 0; padding-left:20px;">
+          <li><b>Q1:</b> <a href="#meet-team">Meet the Team</a>'s 7-stage journey</li>
+          <li><b>Q2:</b> Touchpoint 0a, no Calendly until top-3-niches posted (<a href="#templates">Templates Library</a>)</li>
+          <li><b>Q3:</b> Meet the Team's scope table</li>
+          <li><b>Q4:</b> the no-show/silent-student/refund protocols in <a href="#comms">Communication Guidelines</a> and Templates edge cases</li>
+          <li><b>Q5:</b> GMC suspension edge case in Templates Library</li>
+          <li><b>Q6:</b> personalised Loom + fulfillment steps, Templates Stage 6</li>
+          <li><b>Q7:</b> the 48-hour no-touch rule on the new Ads account (see <a href="#first-two-weeks">Week 2</a> Core 5 watch-for)</li>
+        </ul>
+        </div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="incubator-plus-sop">
+      <h2>📙 Incubator+: Student Setup Full SOP <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">One of the two richest docs in the library. Required Week 1 reading #2. A 30–45 day journey, faster than Incubator because the Design Team builds the store (DFY) and niches are pre-researched (DAC list).</div>
+      <div class="card">
+        <h3>Roles</h3>
+        <table>
+          <tr><th>Role</th><th>Owns</th></tr>
+          <tr><td>Coach (you)</td><td>Call 1 · Call 2 · Call 3+ · all 7 touchpoints · site audit</td></tr>
+          <tr><td>Orientation Team</td><td>1:1 orientation call (24hr SLA) · presents DAC niches</td></tr>
+          <tr><td>Support Team</td><td>Sends combined tech setup + DFY form · billing · refunds · renewals</td></tr>
+          <tr><td>Design Team (Teresa &amp; Veatris)</td><td>Builds the DFY store · logo · branding</td></tr>
+          <tr><td>Tech Support (Sam)</td><td>Shopify, domain, Google Workspace setup</td></tr>
+          <tr><td>Jake</td><td>SupplierHQ questions (manual tag)</td></tr>
+          <tr><td>Product Upload Team</td><td>Uploads products for up to 3 suppliers</td></tr>
+          <tr><td>Revenue Team</td><td>GMC + Google Ads + Meta setup with coach</td></tr>
+          <tr><td>Doola (external)</td><td>LLC + EIN for students without one</td></tr>
+          <tr><td>Aaron</td><td>Refunds (auto-tagged via 🎫)</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Stage 1: Onboarding</h3>
+        <p>Welcome message with Loom intro, <b>no Calendly link yet</b>. Orientation Team runs a 1:1 call within 24 hrs (Slack walkthrough, course/tech overview, presents pre-vetted DAC niches), and the student returns with their top 3. Coach reviews the top 3 within 24 hrs, cross-checks SupplierHQ, forms a recommendation, then sends Calendly.</p>
+        <div class="quote">If a student asks "are you an e-commerce expert?" don't undersell. "I'm trained and specialised in our unique High Ticket strategy. I've worked with dozens/hundreds of students to help them build, launch, and grow. I'm going to do the same with you."</div>
+      </div>
+      <div class="card">
+        <h3>Stage 2: Niche &amp; LLC</h3>
+        <p>Call 1 (30-45 min): rapport, LLC check, narrow top 3 to 1, discuss domain naming, close out.</p>
+        <div class="callout-warn"><h4>⭐ Hard gate: within 5 minutes of Call 1 ending</h4>
+        The niche call isn't closed until you tag @support-team with the student's confirmed niche, LLC status, and store name direction (or "shortlist coming end of day"). Miss this and Support's form never goes out, and the student stalls for days. Support's queue is FIFO, so a late tag means a late tech call. Coach never sends the form directly: three different forms exist and the wrong one creates legal complications.</div>
+        <p>If no LLC: Doola hand-off (15-min call, up to 14 days, Shopify Payments waits on LLC). Tech Setup handled entirely by Sam; coach isn't on that call.</p>
+      </div>
+      <div class="card">
+        <h3>Stage 3: In Build</h3>
+        <p><b>Key Incubator+ difference:</b> the Design Team builds the store; the student does not build it themselves. Coach's job here is purely to communicate timeline and unblock, not to interfere with the build. Confirm Teresa &amp; Veatris are in-channel ~2 days after Stage 2, send a mid-build check-in around day 5-7 (~14 days form-to-signoff is typical), then verify custom domain, branding, and templates once the student approves.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Stage 4: Pre-Ads</h3>
+          <ul>
+            <li>Store review + supplier outreach (goal: 10 connections/14 days)</li>
+            <li>Product imports as suppliers approve</li>
+            <li>3-day social warm-up <i>before</i> touching ad platforms (fresh accounts get flagged)</li>
+            <li>Full site audit (frontend, checkout test, indexing, shipping; business name must be identical across Shopify/GMC/Ads, no "LLC" suffix)</li>
+            <li>GMC pre-setup with just 2-3 products</li>
+            <li>Book Call 2</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Stage 5 &amp; 6: Ads Live &amp; Scaling</h3>
+          <p>Call 2 runs Google Ads setup (always Google before Meta), confirmed spending before ending. 24-hr confirmation touchpoint catches early errors. Weekly Monday performance reads. First-sale celebration = personalised Loom, not text. Renewal conversation at 5 months is coach-raised but Support/Aaron-processed; coach never discusses refund/pricing terms directly.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Edge cases</h3>
+        <ul>
+          <li>Student wants to skip DFY and build their own store (rare): confirm with @support-team first, they paid for DFY</li>
+          <li>Design Team delayed past 14 days: escalate to @support-team, don't let it drag</li>
+          <li>Standard no-show / silent / refund / GMC-suspension protocols same as elsewhere in this hub</li>
+        </ul>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="incubator-sop">
+      <h2>📘 Incubator: Student Setup Full SOP <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The non-plus tier equivalent. A 45–60 day journey, slower than Incubator+ because the student builds their own store and researches their own niche.</div>
+      <div class="card">
+        <table>
+          <tr><th></th><th>Incubator</th><th>Incubator+</th></tr>
+          <tr><td>Timeline</td><td>45–60 days</td><td>30–45 days</td></tr>
+          <tr><td>Store build</td><td>Student builds it themselves</td><td>Design Team (DFY) builds it</td></tr>
+          <tr><td>Orientation</td><td>Group orientation call</td><td>1:1 orientation call (24hr SLA)</td></tr>
+          <tr><td>Niche source</td><td>Student researches (Niche Research Sheet)</td><td>Pre-researched DAC list, student picks top 3</td></tr>
+          <tr><td>Forms</td><td>Tech setup form only</td><td>Combined tech setup + DFY form</td></tr>
+          <tr><td>Hard gate</td><td>Tag Support after Call 1 (no strict timer called out)</td><td>Tag Support within 5 min of Call 1, non-negotiable</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>What's the same as Incubator+</h3>
+        <p>Same 6-stage shape (Onboarding, Niche &amp; LLC, In Build, Pre-Ads, Ads Setup, Live &amp; Scaling), same site-audit checklist, same GMC pre-setup approach (2-3 products first), same weekly Monday performance reads, same edge-case handling for no-shows/silence/refunds/GMC suspensions, same Roles table structure (Tech Support Sam, Jake for SupplierHQ, Product Upload Team, Revenue Team, Doola, Aaron) minus the Design Team row.</p>
+        <h4>Incubator-specific notes</h4>
+        <ul>
+          <li>Student researches their own niches and submits a Niche Research Sheet (vs. picking from a pre-vetted DAC shortlist)</li>
+          <li>Coach can, in extreme cases, comp a store if a student is truly stuck building, but only after discussing with your Head of Coaching first</li>
+          <li>If Sam (Tech Support) is unavailable and the student is blocked, there's a LEGACY Client Setup SOP for manual fallback, last resort only</li>
+        </ul>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="niche-call">
+      <h2>🎯 Niche Selection Call: Stage 1 <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The single most detailed, script-level SOP in the library (v1.1, Owner: Coaching Team). This is Call 1 with Incubator+ students, the call Coaches Month One Week 3 has you running solo for the first time. It sets the entire store direction and the coach-student relationship.</div>
+      <div class="card">
+        <h3>Purpose &amp; Trigger</h3>
+        <p>Get the student from three shortlisted niches to one confirmed niche with a strategic angle in 30–45 minutes, while building trust and emotional safety for the next 60 days. Triggers once the student has posted their top 3 niches in Slack AND booked Call 1 via Calendly.</p>
+      </div>
+      <div class="card">
+        <h3>Before the call: AI prep workflow</h3>
+        <p>Paste the student's shortlisted niches into a custom GPT (a "Clear Concise English Rewriter" prep prompt) that ranks the niches on profitability/suppliers/AOV/Shopping &amp; Meta suitability, recommends 5 product categories per niche, generates 20 branded niche combinations, 20 store-name ideas, and coach talking points. Output feeds directly into Phase 3 below.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h3>Phase 1: Open the Call (~3-5 min)</h3>
+          <p>Solve any audio/tech friction warmly, never make the student feel stupid (AirPods often hijack audio, so disconnect Bluetooth). Then spend 2-3 min genuinely getting to know them: background, current situation, why e-commerce. Rachel's training is explicit this isn't small talk; it's the relationship that carries the next 60 days.</p>
+        </div>
+        <div class="card">
+          <h3>Phase 2: Review Their Top 3 (~5-10 min)</h3>
+          <p>Listen first, don't lead with your recommendation. Ask how they found each niche, notice which one they're emotionally attached to (hardest to steer away from). Then honestly walk pros/cons of each with specific framing, not generic: e.g. Smart Tech's high returns crush newbie confidence, or Beauty/supplements are tricky for ad-platform compliance.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Phase 3: Deliver Your Recommendation (~10-12 min), the "combinative angle"</h3>
+        <p>Don't just pick one of their 3. Widen it into a 4-5 category store absorbing what they liked from the others:</p>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>A core category (chosen niche's anchor, high price point, strong demand)</li>
+          <li>A high-intent emergency category (EV chargers, pool cleaners, water filtration)</li>
+          <li>An evergreen/fitness-style category (never goes out of style)</li>
+          <li>A crossover category (pulls in appeal from another of their top 3)</li>
+          <li>An upgrade/aspirational category (solar batteries, smart automation)</li>
+        </ol>
+        <div class="quote">"Every category here should sit on a nice fine line between nice-to-have and 'I really need this product.'"</div>
+        <p>Pre-empt emotional resistance by naming their favourite pick directly if you steered away from it, then ask "What's your take?" Don't move on until they verbally agree.</p>
+      </div>
+      <div class="card">
+        <h3>Phase 4: Business Basics Checklist (~5-8 min)</h3>
+        <p>Four-point check: LLC (yes, confirm EIN+address; no, send Doola link, 7-14 days), business bank account, business phone (recommend OpenPhone/Quo), store name (commit to sending 10-15 options by end of day). ⚠️ Never give legal/financial advice; redirect LLC/bank questions to Doola.</p>
+      </div>
+      <div class="card">
+        <h3>Phases 5 &amp; 6: Next Steps, Emotional Check-In, Close (~6-10 min)</h3>
+        <p>Set the timeline expectation honestly (3-4 weeks if student-led decisions stay quick; indecision on small things like colours is what actually stretches it). Ask for an honest temperature check even if things sound fine; probe once more if they say "it's fine." Affirm something specific they're doing right. Close with warmth: "If anyone or anything on the team frustrates you, just tell me, I've got your back."</p>
+      </div>
+      <div class="callout-warn">
+        <h4>⭐ Closing hard gate: within 5 minutes of the call ending</h4>
+        Tag @support-team with niche confirmed, LLC status, and store name direction (or "shortlist coming end of day") <b>before you walk away from your desk</b>. Separate from the post-call summary: the summary is for the student, this tag is for Support (the gatekeeper of the tech form). If you only have time for one post-call action, do this one.
+        <div class="tpl">👋 @support-team, [Student Name] is ready for IT/Tech Setup.
+- Niche confirmed: [niche + widened categories]
+- LLC status: [in place / Doola pending / no LLC yet]
+- Store name direction: [brand name OR "shortlist coming end of day"]
+Please send the combined Tech Setup + DFY form when you're ready. Thanks!</div>
+      </div>
+      <div class="card">
+        <h3>Objection scripts (selected)</h3>
+        <ul>
+          <li><b>"I really wanted to do [favourite niche] on its own."</b> Say: "Totally hear you, that interest stays in the store. I want to keep you in [their niche] AND give you a few neighbouring categories so you're not fighting in a sea of look-alikes."</li>
+          <li><b>The "Niche-Switcher" persona (mid-call change requests, avoidance dressed as strategy).</b> Say: "Hold up. The DAC list you saw is research-driven, your niche was vetted on supplier viability and ad performance data. Let's lock this selection in and revisit only if we have real performance data telling us otherwise."</li>
+          <li><b>Legal/tax/financial question.</b> Say: "Honestly that's a Doola question, I'm not the right person to give you legal advice. Let's get you in their channel."</li>
+        </ul>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="supplier-outreach">
+      <h2>📦 Supplier Outreach Call (Post-Store Build): Stage 2 <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Teaches the student a repeatable outreach system, not just "find products." Runs right after the store build is signed off. Expected duration 45-60 min.</div>
+      <div class="card">
+        <h3>Flow</h3>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Quick store audit first (branding/trust signals/nav/footer/policies: fix credibility issues before outreach begins)</li>
+          <li>Explain Collective-before-SupplierHQ strategy</li>
+          <li>Shopify Collective business-profile walkthrough</li>
+          <li>Teach category-first search (Store Category, then Products, then Suppliers; never random searching)</li>
+          <li>Supplier evaluation</li>
+          <li>Set targets</li>
+          <li>Share the approved email template</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Supplier evaluation filter</h3>
+        <table>
+          <tr><th>Filter</th><th>What to prefer</th></tr>
+          <tr><td>Retail price</td><td>High-ticket: $800+</td></tr>
+          <tr><td>Shipping time</td><td>Avoid very long estimates (over a month isn't ideal)</td></tr>
+          <tr><td>Import type</td><td>Understand Instant Import vs. Request Access</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Targets</h3>
+        <p><b>20-30 outreach requests per category</b> on Shopify Collective, minimum retail price filter $800, aim for <b>5-7 products per category</b> before GMC (no more; expand after launch). Spread across days to avoid burnout (2 categories/day pace). Most students finish Collective outreach within one week.</p>
+        <div class="quote">Scared of rejection? Say: "This is a volume game, we're sending 20 to 30 requests per category because we expect some no's. The suppliers who say yes are the ones who matter."</div>
+      </div>
+      <div class="card">
+        <h3>Closing</h3>
+        <p>Restate the target, confirm the daily schedule, post the Post-Call Slack Summary within 30 minutes (skipping this is one of the most common reasons students lose the target between calls).</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="supplier-imports">
+      <h2>📥 Supplier &amp; Store Product Imports Call: Stage 3 <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The ad-hoc, hands-on working session that unblocks a student after supplier outreach and gets the store populated before ads. Screen-share, less talking, more clicking. About 25-35 min. Version 1.1, Owner: Coaching Team.</div>
+      <div class="card">
+        <h3>Running order</h3>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Open &amp; triage (0-3 min): which categories have approved suppliers, which haven't heard back, pick 1-2 stuck categories to focus on</li>
+          <li>The imports (3-15 min): import <b>5-7 products per category only</b>, curated for recognisable products and strong photography, skip cheap-looking images</li>
+          <li>Imports &amp; tagging (15-22 min): tag each product to the right collection, save, rewrite descriptions with the ChatGPT premium-copywriter prompt (no health claims, GMC risk)</li>
+          <li>Verify on storefront (22-24 min): confirm products show up live</li>
+          <li>Menu &amp; collection cleanup (24-29 min, bonus step only if needed)</li>
+          <li>Pre-launch risk sweep (29-32 min): draft out-of-stock products, coach (not student) adjusts free-shipping wording pre-launch</li>
+          <li>Set the next milestone &amp; close (32-35 min): anchor a launch date, pre-empt slow-supplier frustration</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Curation rules</h3>
+        <table>
+          <tr><th>Filter</th><th>Why</th></tr>
+          <tr><td>Import categories already on hand</td><td>Recognisable products</td></tr>
+          <tr><td>7-8 strong products per category</td><td>Quality beats quantity</td></tr>
+          <tr><td>Skip cheap-looking photography</td><td>Even if the product is fine, weak photos kill conversions</td></tr>
+        </table>
+      </div>
+      <div class="quote">If the student wants to add 50 products: "5-7 really good products are safer for us to audit pre-GMC set-up. We want eye candy, quality beats quantity right now."</div>
+      <div class="card">
+        <h3>Post-call (within 30 min)</h3>
+        <p>Recap in Slack (categories populated/pending, this week's tasks, target launch date), add tweaks to the pre-launch GMC list, update the Welcome Sheet, schedule the next session or the Stage 4 site audit within 7 days.</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="website-audit">
+      <h2>🖥️ Website Audit: Stage 4 <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The final QA stage before GMC + Ads. Expected duration 45-60 min. Very checklist-heavy; worth re-reading right before running an actual audit.</div>
+      <div class="card">
+        <h3>9-point audit framework (always this order)</h3>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Homepage review</li>
+          <li>Navigation (max 5-6 top-level menu items, group the rest as subcategories)</li>
+          <li>Collections (5-7 products minimum per major collection)</li>
+          <li>Product pages</li>
+          <li>Trust signals (Contact, About Us, Shipping/Privacy/Refund/Terms, secure checkout messaging)</li>
+          <li>Footer (LLC name for professionalism)</li>
+          <li>Product images (consistent sizing, no supplier watermarks)</li>
+          <li>Mobile review (most customers shop from mobile)</li>
+          <li>Technical checklist (SSL, favicon, no broken links, no demo content)</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Coach Decision Matrix</h3>
+        <table>
+          <tr><th>Tier</th><th>Meaning</th><th>Examples</th></tr>
+          <tr><td>🔴 Launch Blocker</td><td>Must fix before GMC</td><td>Broken nav, missing policies/contact info, empty collections, broken pages</td></tr>
+          <tr><td>🟡 Should Fix Soon</td><td>Can launch, improve shortly after</td><td>Collection expansion, image consistency, homepage enhancements</td></tr>
+          <tr><td>🟢 Post-Launch</td><td>Optimize later</td><td>Blog articles, more suppliers/categories, extra trust badges</td></tr>
+        </table>
+        <p>This prevents students from getting stuck chasing perfection.</p>
+      </div>
+      <div class="quote"><b>The litmus test:</b> if you wouldn't confidently make a $2,000 purchase on the site yourself, it's not ready for your student to ask customers to do the same.</div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="gmc-ads-setup">
+      <h2>🚀 GMC + Google Ads Setup Call: Stage 5 <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The most technical call in the entire journey, "Call 3" with Incubator+ students. The single doc most heavily cross-referenced whenever GMC compliance or the no-touch rule comes up.</div>
+      <div class="card">
+        <h3>Flow (7 phases)</h3>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Live store spot-check</li>
+          <li>Full GMC setup (business name/address must match EIN notice + Shopify footer + LLC docs <i>exactly</i>: this is where a lot of GMC suspensions are born)</li>
+          <li>Instagram setup for legitimacy signals</li>
+          <li>GMC shipping/return policy config (must match Shopify shipping profile and storefront policy page)</li>
+          <li>Google Ads account + demo campaign creation</li>
+          <li>Payments profile under the LLC</li>
+          <li>Google tag install in <code>theme.liquid</code>, Google &amp; YouTube / Google Ads Shopify apps, tag verification via Data Manager, identity verification, and conversion goal setup</li>
+        </ol>
+      </div>
+      <div class="callout-warn">
+        <h4>⭐ The 72-hour no-touch rule</h4>
+        Once the Google tag is installed and GMC/Ads setup is complete, the account needs <b>72 hours with no further changes</b> before launching a real, spending campaign. This lets Google's systems stabilize and avoids review flags. It's one of the required New Coach Loom Walkthrough gut-check questions (Q7) for a reason, so make sure the student clearly understands it before you end the call.
+      </div>
+      <div class="card">
+        <h3>If a suspension happens right after this call</h3>
+        <p>Reassure the student it's common and mechanical, not a reflection on them. Explain the auto-extension policy (subscription extends by the suspension duration at no cost). Tag @support-team to log it and follow the <a href="#gmc-suspension">GMC Suspension Resolution SOP</a> rather than self-diagnosing the appeal.</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="gmc-health-pmax">
+      <h2>🌱 GMC/Ads Account Health Check + PMax Launch SOP: Stage 6 <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Runs once the student's GMC account is officially approved. Goal: protect the approval, keep site content compliant, and guide the student (or their VA) through launching their first Performance Max campaign. Version 1.0, Owner: Coaching Team.</div>
+      <div class="callout-warn">
+        <h4>⭐ The crawler cool-down</h4>
+        Once approved, instruct the student to make no significant changes to the store or product pages for the first 10-14 days. Sudden changes can trigger red flags. "Done is better than perfect": if they want to add blogs or design elements, wait two weeks until account stability is confirmed.
+      </div>
+      <div class="card">
+        <h3>Compliance health check</h3>
+        <p>Remove all wellness-based health claims (e.g. "reduces stress," "improves circulation," Google flags these immediately), remove stray or dead hyperlinks in product descriptions or blog posts, and keep description tone professional rather than "miracle cure" sales copy.</p>
+      </div>
+      <div class="card">
+        <h3>PMax launch</h3>
+        <p>The student (or VA) sets up the first PMax campaign themselves using the Module 9 Next Steps guide; the coach does not set it up for them, they need to learn the system. The loop: send Module 9 instructions, student/VA executes setup, coach reviews the live campaign on the next call to correct errors, optimize bids, or fix targeting. Also ensure live chat (Chatra) is installed before launch: missing a warm lead during the initial PMax traffic influx means lost revenue.</p>
+      </div>
+      <div class="quote">On PMax launch: "The next step is to launch your first PMax campaign. I want you to handle the setup based on the guide I'm sending, this builds your muscle memory for when we scale. We will review the setup together on our next call to catch anything missed."</div>
+      <p class="meta">If the account gets suspended at this stage, follow the <a href="#gmc-suspension">GMC Suspension Resolution SOP</a> below.</p>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="ad-campaign-audit">
+      <h2>🧩 Ad Campaign Audit: Stage 7 (PMax Campaign Check-in SOP) <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Runs 24-48 hours post-campaign-launch, once the student is out of "GMC Jail" and the PMax campaign is live. Goal: technical audit of the Ads account, verify tracking health, and enforce a strict hands-off period so machine learning can take over. Version 1.0, Owner: Coaching Team.</div>
+      <div class="card">
+        <h3>Technical audit</h3>
+        <ul style="padding-left:20px; font-size:14.5px;">
+          <li>Conversion goals: Purchases set to Primary, Begin Checkout and Page View set to Secondary</li>
+          <li>Data Manager (Tools &gt; Data Manager): resolve any "Needs Attention" errors, accept domain/Shopify linking prompts</li>
+          <li>Account security: at least two active admins on the Google Ads account, add a second email if only one exists</li>
+        </ul>
+      </div>
+      <div class="callout-warn">
+        <h4>⭐ Hands-off enforcement (crawler protection)</h4>
+        The account is in a vulnerable state right after leaving GMC suspension. Zero major changes for 7-10 days: no adding products, no heavy design changes, no changing URLs. Frame any student urge to tinker as a dangerous move: "Let the crawlers breathe."
+      </div>
+      <div class="card">
+        <h3>Campaign health &amp; homework</h3>
+        <p>Explain the campaign will show "Inactive" or "Learning" for 2-4 weeks, this is standard. Assign homework for the 7 days: post 2 pieces of content daily on the business Instagram account, keep warming up social presence, send drafts to the coach for feedback if wanted, and continue supplier outreach and catalog expansion while ads gather data.</p>
+      </div>
+      <div class="card">
+        <h3>Troubleshooting</h3>
+        <p>Ad not spending: confirm the Listing Group is set up and the campaign enabled; if correct, it's just the learning delay, don't tinker with bids yet. Site errors: check status.shopify.com before troubleshooting, don't blame the store if the platform itself is down.</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="scaling-beyond-waiting">
+      <h2>🏃 Scaling Beyond Waiting: Stage 8 (Growth, Scaling &amp; Continuous Supplier Expansion) <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Transitions the student from launching their first campaign to building a long-term, sustainable business. Core philosophy: a successful student is never waiting, they are always building; a successful coach never lets a student sit idle while Google learns. Version 1.0, Owner: Coaching Team. About 30-45 min.</div>
+      <div class="card">
+        <h3>Daily outreach routine to assign</h3>
+        <ul style="padding-left:20px; font-size:14.5px;">
+          <li>20-30 supplier emails per day</li>
+          <li>5-8 supplier phone calls per day</li>
+          <li>1-2 hours dedicated to outreach daily</li>
+          <li>Always submit a Dealer/Distributor/Wholesale application if a supplier site offers one, before leaving the site: it's a second entry point and often speeds approval</li>
+        </ul>
+        <p>Category expansion should feel logical, e.g. Garage Store, then Power Stations, then Solar Generators, then EV Chargers, then Battery Storage.</p>
+      </div>
+      <div class="card">
+        <h3>Two scaling optimizations to introduce</h3>
+        <p><b>Buy Now, Pay Later:</b> enable Shop Pay Installments and/or Affirm to reduce price shock on high-ticket items and lift conversion (Klarna expected back for US in Q3 2026).</p>
+        <p><b>SEO/AI-friendly descriptions:</b> before ads launch, rewrite supplier-default descriptions to be unique, keyword-natural, and structured with clear headings/bullets/specs so both search engines and AI assistants can parse them, without adding unsupported claims.</p>
+      </div>
+      <div class="quote">On campaign anxiety: "I know the ads haven't made a sale yet, but that doesn't mean they're failing. Google is collecting data. Momentum comes from your consistent outreach work, not from making daily changes to the ad campaign."</div>
+      <div class="card">
+        <h3>Coach success metric</h3>
+        <p>A student is scaling well when: the campaign stays stable and keeps collecting data, Merchant Center stays healthy, supplier outreach continues weekly, new suppliers/categories keep getting added, hero products start emerging from campaign data, the student focuses on building rather than reacting to short-term ad swings, and every session ends with clear growth-focused action items.</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="gmc-suspension">
+      <h2>🚨 Google Merchant Center Suspension | Resolution SOP <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">The most cross-referenced doc in the whole library. Two halves: a decision-tree for what to do the moment GMC suspends, plus an exhaustive pre-submission compliance checklist meant to prevent suspension in the first place.</div>
+      <div class="callout-warn">
+        <h4>Core Principle</h4>
+        Avoid prolonged troubleshooting. If a suspension is rejected once and the reason is unclear, repeated appeals will likely fail; move quickly to alternatives rather than getting stuck in verification loops. <b>Target resolution time: 1.5–2 weeks maximum.</b>
+      </div>
+      <div class="card">
+        <h3>The Decision Tree</h3>
+        <table>
+          <tr><th>Scenario</th><th>Action</th></tr>
+          <tr><td>New suspension</td><td>Full compliance check, fix issues, submit identity verification (wait 5-7 days)</td></tr>
+          <tr><td>First rejection</td><td>Forward to Store Build Team, complete rebuild (new related domain, visually different store, updated policies), new GMC + Ads accounts</td></tr>
+          <tr><td>Second rejection</td><td>Stop all Google attempts, pivot to Meta Ads (primary alt.) / Bing Ads (secondary)</td></tr>
+          <tr><td>Unclear reason</td><td>Do NOT investigate further, move to rebuild immediately</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <h3>The #1 suspension trigger: address/name mismatch</h3>
+        <p>Business name and address must match <b>exactly</b> across the EIN notice, Shopify footer, LLC docs, and GMC. Brand name is used <i>without</i> "LLC" everywhere except the footer (footer shows LLC name only; policies show both, e.g. "Epic Game Rooms operated by Two More, LLC"). Shipping times (handling 1-3 days / transit 5-8 days / total 6-11 days) must also match identically across Shopify policy pages, the Shopify shipping profile, and GMC.</p>
+      </div>
+      <div class="card">
+        <h3>Misrepresentation: the hardest suspension type to resolve</h3>
+        <p>Golden rule: every claim on the store must be 100% true and verifiable. Common triggers: "Free Shipping on All Orders" when it only applies above a threshold (say exactly what's true instead); an advertised price-match guarantee with no real process behind it; fake urgency/countdown timers; inflated crossed-out "original prices" never actually charged; unbacked guarantees ("Lifetime Warranty").</p>
+        <div class="quote">Rule of thumb: if a Google reviewer visited the store and tested every claim, would they all hold up? If not, remove or reword before submitting for verification.</div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="handover">
+      <h2>🤝 Coach-to-Coach Student Handover Procedure <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">What happens when a student needs to move from one coach to another. Two process flows depending on who initiates it.</div>
+      <div class="card">
+        <h3>Flow A: Student/Support-initiated</h3>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Student notifies Support</li>
+          <li>Support opens a transfer thread</li>
+          <li>Approval check if needed</li>
+          <li><b>Outgoing coach generates the handover PDF via the Student Handover Document Generation App within 24 hours</b></li>
+          <li>New coach assigned</li>
+          <li>Support updates roster/access</li>
+          <li>Incoming coach reviews the PDF, confirms receipt, posts an intro in the student's Slack channel</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Flow B: Coach-requested (needs Team Lead approval)</h3>
+        <p><b>Valid reasons:</b> unresolvable trust breakdown, abusive/threatening/harassing student, documented major misalignment. <b>Not valid:</b> student is "difficult" but no resolution attempted; coach discomfort without documentation; avoiding accountability; undocumented "personality mismatch."</p>
+        <ol style="padding-left:20px; font-size:14.5px;">
+          <li>Coach submits a factual written request with documentation</li>
+          <li>Team Lead reviews and approves</li>
+          <li>Same 24-hour handover PDF requirement</li>
+          <li>Support executes the transfer</li>
+          <li>New coach introduces themselves</li>
+        </ol>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="difficult-student">
+      <h2>⚠️ Difficult Student, No Shows &amp; Requesting Refunds <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">One of the most important SOPs to internalize: this is the doc behind Loom Walkthrough gut-check Q4 ("a student goes quiet, no-shows, or talks refund, how do you handle it?").</div>
+      <div class="card">
+        <h3>No-show timeline</h3>
+        <p>3 min past start: tag student in Slack, share the meeting link. 6-7 min, no word: call via Aloware. Still nothing: leave the call, send a short kind follow-up, offer the reschedule link. Reschedule window: 48 hrs prior. No-show = forfeited call. Two no-shows in a row with no communication: escalate to Onboarding Team.</p>
+      </div>
+      <div class="callout-warn">
+        <h4>Life happens: acknowledge it, don't fix it</h4>
+        When a student flags a personal crisis, resist the instinct to solve it. Don't offer a specific extension length, don't offer a pause (paused members rarely come back), don't probe for details, don't promise a timeline. Good first reply: "Hey [name], really sorry you're dealing with this. Handle what you need to handle, I'm here when you're ready to pick back up." Still 🎫 the channel the same day to loop Aaron in.
+      </div>
+      <div class="card">
+        <h3>Retention: catching problems early</h3>
+        <p>Aaron's team saved ~$105K in a single week keeping 98% of students who called in, but most of those 25 near-losses were preventable if caught earlier by the coach. Five risk signals: health/family crisis, time constraints, financial hardship, misunderstanding the program, coaching/support issues. In every case: extensions over pauses, flag early, document everything.</p>
+      </div>
+      <div class="card">
+        <h3>Refund/cancel requests: the 🎫 trigger</h3>
+        <p>React with 🎫 on any message in the student's channel (or forward a DM into the channel first). Within seconds: Aaron is added, a message posts from Olha, an Intercom ticket is created. For refund requests specifically, the automation also sends the student their call booking link immediately.</p>
+        <div class="quote">Keep coaching them. A refund request isn't the end. Great coaching, and not making them feel awkward for asking, is often exactly what changes their mind.</div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="coach-scripts">
+      <h2>💬 Coach Scripts: Common Student Questions <span class="badge confirmed">Confirmed</span></h2>
+      <div class="meta">Word-for-word answers to the questions that come up over and over. Worth memorizing before live student calls, likely to come up in week one.</div>
+      <div class="card">
+        <h3>"Do you have ecommerce experience?"</h3>
+        <div class="quote">"I'm trained and specialised in our unique High Ticket strategy. I've worked with over 100 students to help them build, launch, and grow their e-commerce stores and get to their first sale. I'm going to do the same with you."</div>
+        <p>Never answer "no": what they're really asking is "can you actually help me win?"</p>
+      </div>
+      <div class="card">
+        <h3>"How many millionaires has the program made?"</h3>
+        <div class="quote">"We don't track an exact 'millionaires' number, but from our 2025 internal survey: among students in the program 6+ months who successfully launched and marketed, average monthly sales were $55,000 (~$650K/year annualized), from 299 students, self-reported. Results vary, but the program builds a clear path for students who show up and do the work."</div>
+        <div class="callout-warn"><h4>⚠️ Watch out</h4>These are sales (revenue), not profit. Never let it become "students make $55K/month." Always keep the qualifiers attached: self-reported, filtered group, not a guarantee.</div>
+      </div>
+      <div class="card">
+        <h3>"What's the guarantee mine will be successful and unique?"</h3>
+        <div class="quote">"Those wins are proof the system works. Yours won't be a copy. Your niche, products, and brand make it its own store. I can't promise an outcome, no honest coach can, but I can promise we'll run the strategy that's gotten those results, together."</div>
+        <div class="callout-warn"><h4>⚠️ Watch out</h4>Never say "guaranteed" or put a promised outcome in writing. That's the line that shows up in a refund dispute.</div>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="interview">
+      <h2>💻 Interview Stage <span class="badge done">Already completed</span></h2>
+      <div class="meta">Coaches Interview Loom Questions doc, kept here for reference only, since you've already cleared this stage.</div>
+      <div class="card">
+        <p>8-question Loom (max 4&ndash;5 min), sent to rachel@highticket.io, cc'd brad@highticket.io and klemens.kilic@highticket.io. Questions covered: background in e-commerce/coaching, learning environments you work best/worst in, a story of guiding someone through a business build, hands-on experience across product research/store setup/ad creatives/scaling/customer service, what a past manager would say about your strengths/weaknesses, 3 most influential books or thought leaders, why HighTicket.io specifically, and whether you're currently running an agency or client work (and how many hours/week).</p>
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+    <section id="library-map">
+      <h2>📚 Full Library Map <span class="badge gap">~65 items total, 22 confirmed</span></h2>
+      <div class="meta">The complete "Coaches SOPs Library" as it actually exists in Notion (confirmed via desktop app, 17 Aug 2026), organized exactly the way it's grouped there. Two rows, <b>ONBOARDING</b> and <b>SET-UP</b>, turned out to be empty section-divider rows, not real docs; they just mark where the next group starts.</div>
+
+      <div class="card">
+        <h3>Role &amp; team basics</h3>
+        <div class="pill-row">
+          <span class="pill confirmed">✓ Coach Role Description, KPI &amp; Comp</span>
+          <span class="pill">Coaches Bonuses Tracking &amp; Submission</span>
+          <span class="pill">Our Service Offerings</span>
+          <span class="pill confirmed">✓ Coaches Role Description</span>
+          <span class="pill confirmed">✓ Meet the Team</span>
+          <span class="pill confirmed">✓ Coaches Trial Week</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Onboarding section <span class="pill empty" style="margin-left:6px;">divider row, empty</span></h3>
+        <div class="pill-row">
+          <span class="pill confirmed">✓ Coaches Month One</span>
+          <span class="pill confirmed">✓ High Ticket Coaches Academy</span>
+          <span class="pill confirmed">✓ New Coach Loom Walkthrough</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Set-up section <span class="pill empty" style="margin-left:6px;">divider row, empty</span></h3>
+        <div class="pill-row">
+          <span class="pill">Coaching Team Meetings</span>
+          <span class="pill">High Ticket Video Backgrounds</span>
+          <span class="pill">Team Slack Communication Guidelines</span>
+          <span class="pill">#Coaches-questions SOP &amp; Links</span>
+          <span class="pill confirmed">✓ Tech Stack Overview</span>
+          <span class="pill">Calendly Set-up</span>
+          <span class="pill">Hubspot Set-up</span>
+          <span class="pill">Coaches Dashboard</span>
+          <span class="pill">Avoma &amp; Google Meet Call Recording Setup</span>
+          <span class="pill">Professional Setup</span>
+          <span class="pill confirmed">✓ Coaches Communication Guidelines and Call Etiquette</span>
+          <span class="pill">Student Slack Channels &amp; Canvases</span>
+          <span class="pill">Student Slack Sections Set-up</span>
+          <span class="pill">Post-Coach Call - Notes For Students Automation</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Coaches Resources</h3>
+        <div class="pill-row">
+          <span class="pill">Student Niche Presentations (On-boarding Team)</span>
+          <span class="pill">Full student journey map A to Z</span>
+          <span class="pill confirmed">✓ Templates &amp; Touchpoints Library</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Every call &amp; stage in the student journey <span class="badge confirmed">all 8 stages now confirmed</span></h3>
+        <div class="pill-row">
+          <span class="pill confirmed">✓ Niche Selection Call: Stage 1</span>
+          <span class="pill confirmed">✓ Supplier Outreach Call (Post-Store Build): Stage 2</span>
+          <span class="pill confirmed">✓ Supplier &amp; Store Product Imports Call: Stage 3</span>
+          <span class="pill confirmed">✓ Website Audit: Stage 4</span>
+          <span class="pill confirmed">✓ GMC + Google Ads Setup Call, Coach Training SOP: Stage 5</span>
+          <span class="pill confirmed">✓ GMC/Ads Account Health Check + PMax Launch SOP: Stage 6</span>
+          <span class="pill confirmed">✓ Ad Campaign Audit: Stage 7</span>
+          <span class="pill confirmed">✓ Scaling Beyond Waiting: Stage 8</span>
+          <span class="pill">NO IDLE FRAMEWORK: SOP For Further Strategy Audits</span>
+          <span class="pill">Trust Signals and Site Optimization SOP</span>
+          <span class="pill">New Meta Ads SOP &amp; Tutorial: Campaign Strategy &amp; Analysis</span>
+          <span class="pill">Sales Tax Registration SOP</span>
+          <span class="pill">Incubator Plus+: Student Journey Overview</span>
+          <span class="pill confirmed">✓ Incubator Plus+: Student Setup Full SOP</span>
+          <span class="pill">Incubator: Student Journey Overview</span>
+          <span class="pill confirmed">✓ Incubator: Student Setup Full SOP</span>
+          <span class="pill">Store Build: Timelines, Revisions &amp; GMC (Meeting Notes June 2026)</span>
+          <span class="pill">Supplier Call Script &amp; Emails For Students</span>
+          <span class="pill">AutoDS Order Fulfillment SOP</span>
+          <span class="pill">Google Merchant Centre Set-up [LEGACY]</span>
+          <span class="pill confirmed">✓ Google Merchant Center Suspension | Resolution SOP</span>
+          <span class="pill">Flag a GMC Suspension</span>
+          <span class="pill">Meta Ads Account Set-up</span>
+          <span class="pill">Ads Stabilisation Check-in (Post-Launch), Coach Training SOP</span>
+          <span class="pill">Reviewing Students Meta Ads</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Coaches Human Resources</h3>
+        <div class="pill-row">
+          <span class="pill confirmed">✓ Exemplary Coaching Calls (With One Student)</span>
+          <span class="pill">Suppliers Master Spreadsheet</span>
+          <span class="pill">High-Ticket Store VA Hiring SOP</span>
+          <span class="pill confirmed">✓ Coach Scripts: Common Student Questions</span>
+          <span class="pill">Domain Name Checker</span>
+          <span class="pill">Shopify Collective</span>
+          <span class="pill">Scheduling a Call When Calendly Doesn't Work</span>
+          <span class="pill">Problem Order Handling SOP</span>
+          <span class="pill">Shopify Order Refund SOP</span>
+          <span class="pill confirmed">✓ Difficult Student, No Shows &amp; Requesting Refunds</span>
+          <span class="pill confirmed">✓ Coach-to-Coach Student Handover Procedure</span>
+          <span class="pill">Coaches Student Handover Document Generator</span>
+          <span class="pill">How to Request leave / Holidays &amp; Procedure</span>
+          <span class="pill">How to Refer a Coach to High Ticket</span>
+          <span class="pill">Student Referral Program</span>
+          <span class="pill">Collecting Trust Pilot Reviews</span>
+          <span class="pill">Student Missing in Action (MIA) Protocol [In-progress]</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>New SOPs &amp; Resources</h3>
+        <div class="pill-row">
+          <span class="pill">High Ticket Coaches Academy - Mindset Series</span>
+          <span class="pill">GMC Compliance Audit + Fix Tool SOP</span>
+          <span class="pill">Pods: Coach FAQ</span>
+          <span class="pill">Student Contract Essentials: What Every Coach Must Know</span>
+        </div>
+      </div>
+
+      <div class="callout-good">
+        <h4>Update: Core calls 1, 2, 4 &amp; 5, GMC Suspension SOP, and all 3 hard-situation SOPs now captured</h4>
+        See <a href="#niche-call">Niche Selection Call</a>, <a href="#supplier-outreach">Supplier Outreach Call</a>, <a href="#website-audit">Website Audit</a>, <a href="#gmc-ads-setup">GMC + Ads Setup Call</a>, <a href="#gmc-suspension">GMC Suspension Resolution SOP</a>, <a href="#handover">Coach-to-Coach Handover</a>, <a href="#difficult-student">Difficult Student, No-Shows &amp; Refunds</a>, and <a href="#coach-scripts">Coach Scripts</a> above.
+      </div>
+      <div class="callout-warn">
+        <h4>What's still open, if you want more filled in</h4>
+        Stage 3 (Supplier &amp; Store Product Imports Call) and Stages 6-8 (GMC/Ads Health Check + PMax, Ad Campaign Audit, Scaling Beyond Waiting) round out the rest of the live-and-scaling journey. The two Student Journey Overview docs (Incubator / Incubator+) are likely condensed maps of what's now in the Full SOPs, so lower priority. Say "keep going" and I'll work through them in priority order, or name specific ones.
+      </div>
+      <a class="toc-back" href="#timeline">↑ back to top</a>
+    </section>
+
+  </main>
+</div>
+<footer>Rebuilt 17 Aug 2026 via real access to the HighTicket.io Notion workspace through the desktop app (antonio.caruso@highticket.io). 26 documents fully captured: Coach Role Description KPI &amp; Comp, Coaches Role Description, Meet the Team, Coaches Trial Week, Coaches Interview Loom Questions, Exemplary Coaching Calls, Coaches Month One, Coaches Communication Guidelines and Call Etiquette, Tech Stack Overview, Templates &amp; Touchpoints Library, High Ticket Coaches Academy, New Coach Loom Walkthrough, Incubator: Student Setup Full SOP, Incubator+: Student Setup Full SOP, Niche Selection Call: Stage 1, Supplier Outreach Call: Stage 2, Supplier &amp; Store Product Imports Call: Stage 3, Website Audit: Stage 4, GMC + Google Ads Setup Call: Stage 5, GMC/Ads Account Health Check + PMax Launch SOP: Stage 6, Ad Campaign Audit: Stage 7, Scaling Beyond Waiting: Stage 8, Google Merchant Center Suspension Resolution SOP, Coach-to-Coach Student Handover Procedure, Difficult Student No Shows &amp; Requesting Refunds, Coach Scripts: Common Student Questions. Local copies also live at <code>CM- High Ticket /Coach SOPs/</code> on your machine.</footer>
+</body>
+</html>
